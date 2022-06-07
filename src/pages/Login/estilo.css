@@ -1,0 +1,40 @@
+/*
+Link falando sobre form com react
+https://pt-br.reactjs.org/docs/forms.html
+*/
+
+.container-ionfooter {
+  --ion-toolbar-background: #1f1f1f;
+}
+
+.button-voltar-footer {
+  width: 40%;
+  margin: 0px auto;
+}
+
+.div-pai-login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.div-filha-login {
+  width: 100%;
+  height: 30%;
+  display: grid;
+  align-items: center;
+}
+
+.container-login {
+  width: 95%;
+  color: white;
+}
+
+.button-login {
+  color: white;
+  width: 80%;
+  display: block;
+  margin: 0px auto;
+}

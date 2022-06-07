@@ -1,0 +1,13 @@
+.container-ionheader {
+  --ion-toolbar-background: #1f1f1f;
+}
+
+.title-header-HomeAnimes {
+  text-align: center;
+  color: white;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.corNomeAnimes {
+  color: white;
+}
