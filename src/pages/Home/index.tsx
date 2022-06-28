@@ -35,7 +35,7 @@ const Home: React.FC = () => (
 
     <IonContent className="ion-padding">
       <div className="container-title-page-inicial">
-        <IonTitle className="title-page-inicial">Assista<br/>Animes</IonTitle>
+        <IonTitle className="title-page-inicial">Registre<br/>Seus<br/>Animes</IonTitle>
       </div>
     </IonContent>
 

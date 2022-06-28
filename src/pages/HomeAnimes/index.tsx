@@ -16,6 +16,8 @@ import {
   IonImg,
   IonCard,
   IonThumbnail,
+  IonButton,
+  IonButtons,
 } from "@ionic/react";
 
 /* Core CSS required for Ionic components to work properly */
@@ -42,6 +44,14 @@ https://www.youtube.com/watch?v=guM__mfT9og
 https://www.youtube.com/watch?v=EUIgC1D-qpM&list=PLuGF_IjvNklhWuFe6KfQFOIEphKhF8aIv&index=3
 */
 
+/**
+ * Supabase Storage Image Upload Tutorial Using Ionic React & Capacitor Camera
+ * https://www.youtube.com/watch?v=MVy46MGmfOQ
+ *
+ * How to pick images from Camera & Gallery in React Native app
+ * https://enappd.com/blog/pick-images-from-camera-gallery-in-react-native-app/78/#9e45
+ */
+
 import naruto from "../../imagens/naruto-img.jpg";
 import narutoShippuden from "../../imagens/naruto-shippuden-img.jpg";
 import komiSam from "../../imagens/komi-san-img.jpg";
@@ -51,7 +61,7 @@ import kimetsuNoYaiba from "../../imagens/kimetsu-no-yaiba.jpg";
 import bokuNoHero from "../../imagens/boku-no-hero-academia-img.jpg";
 import spyXFamily from "../../imagens/spy-x-family-img.jpg";
 import shingekiNoKyojin from "../../imagens/shingeki-no-kyojin-img.jpg";
-import konoSubarashii from "../../imagens/kono-subarashii.jpg"
+import konoSubarashii from "../../imagens/kono-subarashii.jpg";
 import onePunchMan from "../../imagens/one-punch-man-img.jpg";
 import swordArtOnline from "../../imagens/sword-art-online-img.jpg";
 import haikyuu from "../../imagens/haikyuu-img.jpg";
@@ -94,84 +104,104 @@ const imgs = [
   },
   {
     nome: "Spy x Family",
-    caminho: spyXFamily
+    caminho: spyXFamily,
   },
   {
     nome: "Shingeki no Kyojin",
-    caminho: shingekiNoKyojin
+    caminho: shingekiNoKyojin,
   },
   {
     nome: "Kono Subarashii",
-    caminho: konoSubarashii
+    caminho: konoSubarashii,
   },
   {
     nome: "One Punch Man",
-    caminho: onePunchMan
+    caminho: onePunchMan,
   },
   {
     nome: "Sword Art Online",
-    caminho: swordArtOnline
+    caminho: swordArtOnline,
   },
   {
     nome: "Haikyuu!!",
-    caminho: haikyuu
+    caminho: haikyuu,
   },
   {
     nome: "Darling In The FranXX",
-    caminho: darlingInTheFranXX
+    caminho: darlingInTheFranXX,
   },
   {
     nome: "Sono Bisque Doll",
-    caminho: sonoBisqueDoll
+    caminho: sonoBisqueDoll,
   },
   {
     nome: "Vinland Saga",
-    caminho: vinlandSaga
+    caminho: vinlandSaga,
   },
   {
     nome: "Enen no Shouboutai",
-    caminho: enenNoShouboutai
+    caminho: enenNoShouboutai,
   },
   {
     nome: "Horimiya",
-    caminho: horimiya
+    caminho: horimiya,
   },
   {
     nome: "Tsuki ga Kirei",
-    caminho: tsukiGaKirei
+    caminho: tsukiGaKirei,
   },
   {
     nome: "Death Note",
-    caminho: deathNote
-  }
+    caminho: deathNote,
+  },
 ];
 
-const HomeAnimes: React.FC = () => (
-  <IonApp>
-    <IonHeader className="container-ionheader">
-      <IonToolbar>
-        <IonTitle className="title-header-HomeAnimes">
-          Assista
-          <br />
-          Animes
-        </IonTitle>
-      </IonToolbar>
-    </IonHeader>
+const HomeAnimes: React.FC = () => {
+  const addAnime = async () => {};
 
-    <IonContent className="ion-padding">
-      <IonList>
-        {imgs.map((image, i) => (
-          <IonItem className="imgs-home-animes" key={i}>
-            <IonThumbnail slot="end">
-              <IonImg src={image.caminho} />
-            </IonThumbnail>
-            <p className="corNomeAnimes">{image.nome}</p>
-          </IonItem>
-        ))}
-      </IonList>
-    </IonContent>
-  </IonApp>
-);
+  return (
+    <IonApp>
+      <IonHeader className="container-ionheader">
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonButton>Sign out</IonButton>
+          </IonButtons>
+          <IonTitle className="title-header-HomeAnimes">Animes</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={addAnime}>
+              ADD
+            </IonButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent className="ion-padding">
+        <IonList>
+          {imgs.map((image, i) => (
+            <IonItem className="imgs-home-animes" key={i}>
+              <IonThumbnail slot="end">
+                <IonImg src={image.caminho} />
+              </IonThumbnail>
+              <p className="corNomeAnimes">{image.nome}</p>
+            </IonItem>
+          ))}
+        </IonList>
+      </IonContent>
+      <script
+        type="module"
+        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+      ></script>
+      <script
+        noModule
+        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+      ></script>
+    </IonApp>
+  );
+};
 
 export default HomeAnimes;
-
+/*
+<IonThumbnail slot="end">
+<IonButton routerLink="" color="meduim"><IonImg src={imgPerfilPadrao} /></IonButton>
+</IonThumbnail>
+*/

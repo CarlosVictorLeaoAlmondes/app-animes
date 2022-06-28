@@ -20,13 +20,15 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Home from "./pages/Home";
 import SegundaPag from "./pages/SegundaPag";
 import Login from "./pages/Login";
 import CriarConta from "./pages/CriarConta";
 import HomeAnimes from "./pages/HomeAnimes";
+import HomeFoto from "./pages/HomeFoto";
+import Galeria from "./pages/Galeria";
 
 /*
  * Links falando sobre rotas em react
@@ -44,6 +46,8 @@ const App: React.FC = () => (
           <Route exact path="/Login" component={Login} />
           <Route exact path="/CriarConta" component={CriarConta} />
           <Route exact path="/HomeAnimes" component={HomeAnimes} />
+          <Route exact path="/HomeFoto" component={HomeFoto} />
+          <Route exact path="/Galeria" component={Galeria} />
         </Switch>
       </div>
     </Router>

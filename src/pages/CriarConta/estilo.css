@@ -38,3 +38,11 @@ https://pt-br.reactjs.org/docs/forms.html
   display: block;
   margin: 0px auto;
 }
+
+.cor-ion-input {
+  color: white;
+}
+
+p {
+  color: red;
+}
