@@ -1,0 +1,31 @@
+.div-form-add-anime {
+  width: 100%;
+  height: 80%;
+  color: white;
+  align-items: center;
+}
+
+.div-from-add-anime-filha {
+  width: 100%;
+  height: 35%;
+  display: grid;
+  align-items: center;
+}
+
+.input-form-add-anime {
+  color: white;
+}
+
+.div-escolher-foto-add-anime {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.button-page-add-anime {
+  width: 35%;
+  margin: 0px auto;
+}
+
+.div-img-escolhida {
+  align-items: center;
+}

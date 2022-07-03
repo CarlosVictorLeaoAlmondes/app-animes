@@ -1,23 +1,21 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   IonApp,
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonFooter,
   IonIcon,
   IonItem,
-  IonLabel,
-  IonMenu,
   IonList,
-  IonListHeader,
-  IonMenuToggle,
-  IonImg,
-  IonCard,
-  IonThumbnail,
+  IonFab,
+  IonFabButton,
+  IonItemSliding,
+  IonLabel,
+  IonText,
   IonButton,
-  IonButtons,
+  IonCard,
+  useIonViewDidEnter,
 } from "@ionic/react";
 
 /* Core CSS required for Ionic components to work properly */
@@ -52,140 +50,188 @@ https://www.youtube.com/watch?v=EUIgC1D-qpM&list=PLuGF_IjvNklhWuFe6KfQFOIEphKhF8
  * https://enappd.com/blog/pick-images-from-camera-gallery-in-react-native-app/78/#9e45
  */
 
-import naruto from "../../imagens/naruto-img.jpg";
-import narutoShippuden from "../../imagens/naruto-shippuden-img.jpg";
-import komiSam from "../../imagens/komi-san-img.jpg";
-import mushokuTensei from "../../imagens/mushoku-tensei-img.jpg";
-import jujutsuKaisen from "../../imagens/jujutsu-kaisen.jpg";
-import kimetsuNoYaiba from "../../imagens/kimetsu-no-yaiba.jpg";
-import bokuNoHero from "../../imagens/boku-no-hero-academia-img.jpg";
-import spyXFamily from "../../imagens/spy-x-family-img.jpg";
-import shingekiNoKyojin from "../../imagens/shingeki-no-kyojin-img.jpg";
-import konoSubarashii from "../../imagens/kono-subarashii.jpg";
-import onePunchMan from "../../imagens/one-punch-man-img.jpg";
-import swordArtOnline from "../../imagens/sword-art-online-img.jpg";
-import haikyuu from "../../imagens/haikyuu-img.jpg";
-import darlingInTheFranXX from "../../imagens/darling-in-the-franXX-img.jpg";
-import sonoBisqueDoll from "../../imagens/sono-bisque-doll.jpg";
-import vinlandSaga from "../../imagens/vinland-saga-img.jpg";
-import enenNoShouboutai from "../../imagens/enen-no-shouboutai-img.jpg";
-import horimiya from "../../imagens/horimiya-img.jpg";
-import tsukiGaKirei from "../../imagens/tsuki-ga-kirei-img.jpg";
-import deathNote from "../../imagens/death-note-img.jpg";
+// https://ionicframework.com/docs/v3/ionicons/
+import { add, exit, trash, camera } from "ionicons/icons";
+import { AuthContext } from "../../contexts/AuthContext";
 
-const imgs = [
-  {
-    nome: "Naruto",
-    caminho: naruto,
-  },
-  {
-    nome: "Naruto Shippuden",
-    caminho: narutoShippuden,
-  },
-  {
-    nome: "Komi-san",
-    caminho: komiSam,
-  },
-  {
-    nome: "Mushoku Tensei",
-    caminho: mushokuTensei,
-  },
-  {
-    nome: "Jujutsu Kaisen",
-    caminho: jujutsuKaisen,
-  },
-  {
-    nome: "Kimetsu no Yaiba",
-    caminho: kimetsuNoYaiba,
-  },
-  {
-    nome: "Boku no Hero Academia",
-    caminho: bokuNoHero,
-  },
-  {
-    nome: "Spy x Family",
-    caminho: spyXFamily,
-  },
-  {
-    nome: "Shingeki no Kyojin",
-    caminho: shingekiNoKyojin,
-  },
-  {
-    nome: "Kono Subarashii",
-    caminho: konoSubarashii,
-  },
-  {
-    nome: "One Punch Man",
-    caminho: onePunchMan,
-  },
-  {
-    nome: "Sword Art Online",
-    caminho: swordArtOnline,
-  },
-  {
-    nome: "Haikyuu!!",
-    caminho: haikyuu,
-  },
-  {
-    nome: "Darling In The FranXX",
-    caminho: darlingInTheFranXX,
-  },
-  {
-    nome: "Sono Bisque Doll",
-    caminho: sonoBisqueDoll,
-  },
-  {
-    nome: "Vinland Saga",
-    caminho: vinlandSaga,
-  },
-  {
-    nome: "Enen no Shouboutai",
-    caminho: enenNoShouboutai,
-  },
-  {
-    nome: "Horimiya",
-    caminho: horimiya,
-  },
-  {
-    nome: "Tsuki ga Kirei",
-    caminho: tsukiGaKirei,
-  },
-  {
-    nome: "Death Note",
-    caminho: deathNote,
-  },
-];
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
+
+// Armazenamento da foto
+import supabase from "../../supabase-client";
+import { Camera, CameraResultType } from "@capacitor/core";
+import { count } from "console";
 
 const HomeAnimes: React.FC = () => {
-  const addAnime = async () => {};
+  // ---------------------------- FOTO ----------------------------
+
+  const [storageItems, setStorageItems] = useState<any>([]);
+
+  const [imagePath, setImagePath] = useState<any>("");
+
+  useIonViewDidEnter(() => {
+    getAllImages();
+  });
+
+  const getAllImages = async () => {
+    const { data, error } = await supabase.storage
+      .from("image-bucket")
+      .list("", {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    if (error) {
+      alert(error?.message);
+    } else {
+      setStorageItems(data);
+      console.log(data);
+    }
+  };
+
+  /**
+   *
+   * @param path
+   */
+  const uploadImage = async (path: string) => {
+    const response = await fetch(path);
+    const blob = await response.blob();
+
+    const filename = path.substr(path.lastIndexOf("/") + 1);
+
+    const { data, error } = await supabase.storage
+      .from("image-bucket")
+      .upload(`${filename}`, blob, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) alert(error?.message);
+
+    console.log(data);
+
+    return true;
+  };
+
+  const takePicture = async () => {
+    try {
+      const cameraResult = await Camera.getPhoto({
+        quality: 90,
+        // allowEditing: true
+        resultType: CameraResultType.Uri,
+      });
+
+      const path = cameraResult?.path || cameraResult?.webPath;
+
+      // set hook form prop for image
+      setImagePath(path);
+
+      console.log(imagePath);
+
+      await uploadImage(path as string);
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // --------------------------------------------------------------
+
+  const { logout } = useContext(AuthContext);
+
+  const [listAnimesUseState, setListAnimesUseState] = useState<any>("");
+
+  useEffect(refreshAnimes, []);
+
+  const refBanco = firebase.firestore();
+  const uid = localStorage.getItem("uid");
+
+  const refAnimeList = refBanco.collection("/Usuários/" + uid + "/AnimeList/");
+
+  function deleteAnime(id: string) {
+    refAnimeList.doc(id).delete();
+    refreshAnimes();
+  }
+
+  function refreshAnimes() {
+    const uid = localStorage.getItem("uid");
+    const refBanco = firebase.firestore();
+    const refAnimeList = refBanco.collection("/Usuários/" + uid + "/AnimeList");
+    var listAnimes = refAnimeList.get();
+    listAnimes
+      .then(function (event) {
+        setListAnimesUseState(
+          event.docs.map((doc, index) => (
+            <IonItemSliding key={index}>
+              <IonCard style={{ border: "5px solid grey" }}>
+                <IonItem>
+                  <IonLabel style={{ color: "white" }}>
+                    <img
+                      className="img-tela-anime"
+                      src={doc.data().imgAnime}
+                      alt="Foto do anime"
+                    />
+                  </IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonLabel style={{ color: "white" }}>
+                    <IonText>{doc.data().nomeAnime}</IonText>
+                  </IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonLabel style={{ color: "white" }}>
+                    <IonText>Temporada: {doc.data().temporada}</IonText>
+                  </IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonLabel style={{ color: "white" }}>
+                    <IonText>Episódio: {doc.data().episodio}</IonText>
+                  </IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonButton onClick={() => deleteAnime(doc.id)} slot="end">
+                    <IonIcon icon={trash} />
+                  </IonButton>
+                </IonItem>
+              </IonCard>
+            </IonItemSliding>
+          ))
+        );
+      })
+      .catch(function (e) {
+        console.log(e.message);
+      });
+  }
 
   return (
     <IonApp>
       <IonHeader className="container-ionheader">
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonButton>Sign out</IonButton>
-          </IonButtons>
+          
           <IonTitle className="title-header-HomeAnimes">Animes</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={addAnime}>
-              ADD
-            </IonButton>
-          </IonButtons>
+          <IonFab vertical="bottom" horizontal="end">
+            <IonFabButton onClick={takePicture} style={{height: "30px", width: "30px"}}>
+              <IonIcon icon={camera} />
+            </IonFabButton>
+          </IonFab>
         </IonToolbar>
       </IonHeader>
-
       <IonContent className="ion-padding">
-        <IonList>
-          {imgs.map((image, i) => (
-            <IonItem className="imgs-home-animes" key={i}>
-              <IonThumbnail slot="end">
-                <IonImg src={image.caminho} />
-              </IonThumbnail>
-              <p className="corNomeAnimes">{image.nome}</p>
-            </IonItem>
-          ))}
+        <IonList style={{ marginTop: "5px", padding: "15px" }}>
+          {listAnimesUseState}
         </IonList>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton routerLink="/AddAnime">
+            <IonIcon icon={add} />
+          </IonFabButton>
+        </IonFab>
+        <IonFab vertical="bottom" horizontal="start" slot="fixed">
+          <IonFabButton routerLink="/" onClick={logout}>
+            <IonIcon icon={exit} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
       <script
         type="module"
@@ -200,8 +246,3 @@ const HomeAnimes: React.FC = () => {
 };
 
 export default HomeAnimes;
-/*
-<IonThumbnail slot="end">
-<IonButton routerLink="" color="meduim"><IonImg src={imgPerfilPadrao} /></IonButton>
-</IonThumbnail>
-*/

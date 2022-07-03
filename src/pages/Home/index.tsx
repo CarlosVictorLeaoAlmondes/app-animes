@@ -1,7 +1,5 @@
 import React from 'react';
-import { IonApp, IonRouterOutlet, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonList, IonItem, IonThumbnail, IonImg, IonLabel,  } from '@ionic/react';
-
-import { IonReactRouter } from '@ionic/react-router';
+import { IonApp, IonButton, IonToolbar, IonTitle, IonContent, IonFooter } from '@ionic/react';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -22,8 +20,6 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './home.css';
 
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
-
 /*
  * Link falando sobre rotas em react
  * https://ionicframework.com/docs/react/navigation
@@ -41,7 +37,7 @@ const Home: React.FC = () => (
 
     <IonFooter className="container-ionfooter">
       <IonToolbar>
-        <IonButton routerLink="/SegundaPag" className="button-footer" color="light">Continuar</IonButton>
+        <IonButton routerLink="/Login" className="button-footer" color="light">Continuar</IonButton>
       </IonToolbar>
     </IonFooter>
 
