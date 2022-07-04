@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Registrando Animes</string>
+    <string name="title_activity_main">Registrando Animes</string>
+    <string name="package_name">com.exemple.app</string>
+    <string name="custom_url_scheme">com.exemple.app</string>
+</resources>

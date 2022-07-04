@@ -1,4 +1,5 @@
 import {
+  IonApp,
   IonButton,
   IonCardContent,
   IonContent,
@@ -8,6 +9,7 @@ import {
   IonPage,
   IonRefresher,
   IonRefresherContent,
+  IonRouterOutlet,
   IonRow,
   IonText,
   IonToolbar,
@@ -19,6 +21,7 @@ import "firebase/compat/storage";
 
 import "./estilo.css";
 import { Camera, CameraResultType } from "@capacitor/core";
+import { useHistory } from "react-router-dom";
 
 /*
 https://www.youtube.com/watch?v=HxWfP2tDK94&list=PLuGF_IjvNklhWuFe6KfQFOIEphKhF8aIv&index=7
@@ -68,6 +71,7 @@ const AddAnime: React.FC = () => {
   );
   const [imgAnime, setImgAnime] = useState<string>("");
 
+  const history = useHistory();
   function saveAnime() {
     if (
       nomeAnime != null &&
@@ -92,8 +96,10 @@ const AddAnime: React.FC = () => {
           episodio,
           imgAnime,
         });
+        history.push("/HomeAnimes")
       } catch (e) {}
-    }else{}
+    } else {
+    }
   }
 
   // Get a reference to the storage service, which is used to create references in your storage bucket
@@ -136,9 +142,9 @@ const AddAnime: React.FC = () => {
       }
     );
   });
-  
+
   return (
-    <IonPage>
+    <IonApp>
       <IonContent fullscreen>
         <div className="div-form-add-anime">
           <div className="div-from-add-anime-filha">
@@ -185,7 +191,7 @@ const AddAnime: React.FC = () => {
                   Adicionar imagem para o Anime:
                 </IonText>
                 <IonButton
-                  style={{marginTop: "15px"}}
+                  style={{ marginTop: "15px" }}
                   onClick={pegarImgDaGaleria}
                   className="button-page-add-anime"
                   color="light"
@@ -200,8 +206,14 @@ const AddAnime: React.FC = () => {
                   accept=".jpg, .jpeg, .png"
                 />
                 <div className="div-img-escolhida">
-                  {!imgAnime && <IonText style={{color: "white"}}></IonText>}
-                  {imgAnime && <img style={{marginTop: "15px"}} src={imgAnime} alt="Imagem escolhida" />}
+                  {!imgAnime && <IonText style={{ color: "white" }}></IonText>}
+                  {imgAnime && (
+                    <img
+                      style={{ marginTop: "15px" }}
+                      src={imgAnime}
+                      alt="Imagem escolhida"
+                    />
+                  )}
                 </div>
               </div>
               <br />
@@ -215,7 +227,9 @@ const AddAnime: React.FC = () => {
                 Salvar
               </IonButton>
             </IonCardContent>
-            <br /><br /><br />
+            <br />
+            <br />
+            <br />
           </div>
         </div>
       </IonContent>
@@ -230,7 +244,7 @@ const AddAnime: React.FC = () => {
           </IonButton>
         </IonToolbar>
       </IonFooter>
-    </IonPage>
+    </IonApp>
   );
 };
 

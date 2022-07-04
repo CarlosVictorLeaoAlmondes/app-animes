@@ -60,7 +60,6 @@ import "firebase/compat/storage";
 // Armazenamento da foto
 import supabase from "../../supabase-client";
 import { Camera, CameraResultType } from "@capacitor/core";
-import { count } from "console";
 
 const HomeAnimes: React.FC = () => {
   // ---------------------------- FOTO ----------------------------
@@ -191,6 +190,7 @@ const HomeAnimes: React.FC = () => {
                   </IonLabel>
                 </IonItem>
                 <IonItem>
+                <IonText slot="start" style={{ color: "white" }} >CountAnimes: {index+1}</IonText>
                   <IonButton onClick={() => deleteAnime(doc.id)} slot="end">
                     <IonIcon icon={trash} />
                   </IonButton>
@@ -209,10 +209,9 @@ const HomeAnimes: React.FC = () => {
     <IonApp>
       <IonHeader className="container-ionheader">
         <IonToolbar>
-          
           <IonTitle className="title-header-HomeAnimes">Animes</IonTitle>
           <IonFab vertical="bottom" horizontal="end">
-            <IonFabButton onClick={takePicture} style={{height: "30px", width: "30px"}}>
+            <IonFabButton routerLink="/HomeFoto" style={{height: "30px", width: "30px"}}>
               <IonIcon icon={camera} />
             </IonFabButton>
           </IonFab>

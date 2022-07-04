@@ -3,6 +3,8 @@ import {
   IonApp,
   IonButton,
   IonContent,
+  IonFooter,
+  IonToolbar,
   useIonViewDidEnter,
 } from "@ionic/react";
 
@@ -112,10 +114,6 @@ const HomeFoto: React.FC = () => {
       <IonContent>
         <div className="container-button-pai">
           <div className="container-button">
-            <h3 className="container-text-home">
-              Para completar o cadastro, escolha ou tire uma foto para o seu
-              perfil:
-            </h3>
             <IonButton
               className="button-home-page"
               color="light"
@@ -123,12 +121,20 @@ const HomeFoto: React.FC = () => {
             >
               Tirar foto
             </IonButton>
-            <IonButton routerLink="../Galeria/index.tsx" className="button-home-page" color="light">
-              Ir para a galeria
-            </IonButton>
           </div>
         </div>
       </IonContent>
+      <IonFooter className="container-ionfooter">
+        <IonToolbar>
+          <IonButton
+            routerLink="/HomeAnimes"
+            className="button-voltar-footer"
+            color="light"
+          >
+            Voltar
+          </IonButton>
+        </IonToolbar>
+      </IonFooter>
     </IonApp>
   );
 };

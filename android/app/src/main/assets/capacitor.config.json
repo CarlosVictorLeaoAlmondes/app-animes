@@ -1,0 +1,6 @@
+{
+	"appId": "com.exemple.app",
+	"appName": "Registrando Animes",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
